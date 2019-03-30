@@ -1,4 +1,4 @@
-package com.example.learnviewmodel
+package com.example.learnviewmodel.models
 
 data class Task(
     var title: String,

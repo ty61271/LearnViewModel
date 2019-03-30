@@ -1,8 +1,9 @@
-package com.example.learnviewmodel
+package com.example.learnviewmodel.navigation
 
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.learnviewmodel.R
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : AppCompatActivity() {
@@ -10,11 +11,11 @@ class NavigationActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_tasks -> {
-                message.setText(R.string.title_task)
+                messageTextView.setText(R.string.title_task)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_notes -> {
-                message.setText(R.string.title_note)
+                messageTextView.setText(R.string.title_note)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -25,6 +26,7 @@ class NavigationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        messageTextView.text = getString(R.string.title_task)
+        navigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 }
