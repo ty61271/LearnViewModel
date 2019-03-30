@@ -1,4 +1,4 @@
-package com.example.learnviewmodel.notes
+package com.example.learnviewmodel.tasks
 
 
 import android.os.Bundle
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 
 import com.example.learnviewmodel.R
 
-class NotesListFragment : Fragment() {
+class TaskListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,11 +20,10 @@ class NotesListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notes_list, container, false)
+        return inflater.inflate(R.layout.fragment_task_list, container, false)
     }
 
-
     companion object {
-        fun newInstance() = NotesListFragment()
+        fun newInstance() =TaskListFragment()
     }
 }
