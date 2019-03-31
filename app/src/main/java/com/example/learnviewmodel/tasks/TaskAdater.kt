@@ -20,8 +20,12 @@ class TaskAdater(
         override fun onBind(data: Task) {
             view.titleView.text = data.title
             data.todos.forEach { todo ->
-                val todoView = LayoutInflater.from(view.context).inflate(R.layout.view_todo, view.todoContainer, false)
-                todoView.descriptionView.text = todo.description
+                val todoView =
+                    LayoutInflater.from(view.context).inflate(R.layout.view_todo, view.todoContainer, false).apply {
+                        descriptionView.text = todo.description
+                        completeCheckBox.isChecked = todo.isComplete
+                    }
+                view.todoContainer.addView(todoView)
             }
         }
     }
