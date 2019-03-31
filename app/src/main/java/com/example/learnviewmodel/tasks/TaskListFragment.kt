@@ -1,6 +1,7 @@
 package com.example.learnviewmodel.tasks
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +15,18 @@ import com.example.learnviewmodel.models.Todo
 import kotlinx.android.synthetic.main.fragment_task_list.*
 
 class TaskListFragment : Fragment() {
+
+    lateinit var touchActionDelegate: TouchActionDelegate
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        context?.let {
+            if (it is TouchActionDelegate) {
+                touchActionDelegate = it
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,18 +42,26 @@ class TaskListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView.layoutManager=LinearLayoutManager(context)
-        val adater=TaskAdater(mutableListOf(
-            Task("Testing one!", mutableListOf(
-                Todo("Test one!",true),
-                Todo("Test two!")
-            )),
-            Task("Testing two!")
-        ))
-        recyclerView.adapter=adater
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        val adater = TaskAdater(
+            mutableListOf(
+                Task(
+                    "Testing one!", mutableListOf(
+                        Todo("Test one!", true),
+                        Todo("Test two!")
+                    )
+                ),
+                Task("Testing two!")
+            ), touchActionDelegate
+        )
+        recyclerView.adapter = adater
     }
 
     companion object {
-        fun newInstance() =TaskListFragment()
+        fun newInstance() = TaskListFragment()
+    }
+
+    interface TouchActionDelegate {
+        fun onAddButtonClicked(value: String)
     }
 }
