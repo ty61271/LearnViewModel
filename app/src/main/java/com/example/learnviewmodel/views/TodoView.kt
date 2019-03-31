@@ -21,11 +21,12 @@ class TodoView @JvmOverloads constructor(
             creatStrikeThough()
         }
 
-        setCheckStateListener(callback)
+        setCheckStateListener(todo,callback)
     }
 
-    fun setCheckStateListener(callback: (()->Unit)? = null) {
+    fun setCheckStateListener(todo: Todo,callback: (()->Unit)? = null) {
         completeCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            todo.isComplete=isChecked
             callback?.invoke()
             if (isChecked) {
                 creatStrikeThough()
