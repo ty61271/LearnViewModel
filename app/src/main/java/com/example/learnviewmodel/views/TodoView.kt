@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.learnviewmodel.models.Todo
 import kotlinx.android.synthetic.main.view_todo.view.*
+import javax.security.auth.callback.Callback
 
 class TodoView @JvmOverloads constructor(
     context: Context,
@@ -13,18 +14,19 @@ class TodoView @JvmOverloads constructor(
     defStyleAttr: Int = 1
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    fun initView(todo: Todo) {
+    fun initView(todo: Todo,callback: (() -> Unit)?=null) {
         descriptionView.text = todo.description
         completeCheckBox.isChecked = todo.isComplete
         if (todo.isComplete) {
             creatStrikeThough()
         }
 
-        setCheckStateListener()
+        setCheckStateListener(callback)
     }
 
-    private fun setCheckStateListener() {
+    fun setCheckStateListener(callback: (()->Unit)? = null) {
         completeCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            callback?.invoke()
             if (isChecked) {
                 creatStrikeThough()
             } else {
