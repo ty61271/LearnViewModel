@@ -2,7 +2,7 @@ package com.example.learnviewmodel.models
 
 data class Task(
     var title: String,
-    val todos: MutableList<Todo>?= mutableListOf(),
+    val todos: MutableList<Todo> = mutableListOf(),
     var tag: Tag?=null
 )
 
