@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.learnviewmodel.models.Note
 
-class NoteViewModel : ViewModel() {
+class NoteViewModel : ViewModel() ,NoteListViewContract{
 
     private val _noteLiveData: MutableLiveData<List<Note>> = MutableLiveData()
     val noteLiveData: LiveData<List<Note>> = _noteLiveData
