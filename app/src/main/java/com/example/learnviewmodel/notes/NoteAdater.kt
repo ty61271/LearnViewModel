@@ -15,6 +15,7 @@ class NoteAdater(
     notes: MutableList<Note> = mutableListOf(),
     val touchActionDelegate: NotesListFragment.TouchActionDelegate
 ) : BaseRecyclerAdater<Note>(notes) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
         if (viewType == TYPE_ADD_BUTTON) {
             AddButtonViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_add_button, parent, false))

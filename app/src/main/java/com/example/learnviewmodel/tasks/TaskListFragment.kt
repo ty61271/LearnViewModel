@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.learnviewmodel.R
@@ -16,6 +17,7 @@ class TaskListFragment : Fragment() {
 
     lateinit var viewModel: TaskViewModel
     lateinit var touchActionDelegate: TouchActionDelegate
+    lateinit var adater: TaskAdater
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -38,18 +40,21 @@ class TaskListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindViewModel()
-
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val adater = TaskAdater(
-            viewModel.getFakeData(),
-            touchActionDelegate
+        adater = TaskAdater(
+            touchActionDelegate = touchActionDelegate
         )
         recyclerView.adapter = adater
+
+        bindViewModel()
     }
 
     private fun bindViewModel() {
         viewModel = ViewModelProviders.of(this).get(TaskViewModel::class.java)
+
+        viewModel.taskListLiveData.observe(this, Observer { taskList ->
+            adater.updateList(taskList)
+        })
     }
 
     companion object {
