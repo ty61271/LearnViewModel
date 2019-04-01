@@ -1,6 +1,7 @@
 package com.example.learnviewmodel.foundations
 
 import android.view.View
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class BaseRecyclerAdater<T>(
@@ -8,9 +9,10 @@ abstract class BaseRecyclerAdater<T>(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun updateList(list: List<T>) {
+        val result=DiffUtil.calculateDiff(DiffUtilCallbackImpl(masterList,list))
         masterList.clear()
         masterList.addAll(list)
-        notifyDataSetChanged()
+        result.dispatchUpdatesTo(this)
     }
 
     companion object {
@@ -35,4 +37,17 @@ abstract class BaseRecyclerAdater<T>(
     }
 
     abstract class AddButtonViewHolder(view: View) : BaseViewHolder<Unit>(view)
+
+    class DiffUtilCallbackImpl<T>(val oldList: List<T>, val newList: List<T>) : DiffUtil.Callback() {
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            oldList[oldItemPosition] == newList[newItemPosition]
+
+        override fun getOldListSize() = oldList.size
+
+        override fun getNewListSize() = newList.size
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+            oldList[oldItemPosition] == newList[newItemPosition]
+
+    }
 }
