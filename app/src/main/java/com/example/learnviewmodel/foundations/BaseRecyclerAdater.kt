@@ -1,10 +1,7 @@
 package com.example.learnviewmodel.foundations
 
 import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.learnviewmodel.models.Task
-import com.example.learnviewmodel.tasks.TaskAdater
 
 abstract class BaseRecyclerAdater<T>(
     protected val masterList: MutableList<T> = mutableListOf()

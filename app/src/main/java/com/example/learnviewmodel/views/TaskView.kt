@@ -8,7 +8,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.learnviewmodel.R
 import com.example.learnviewmodel.models.Task
 import kotlinx.android.synthetic.main.item_task.view.*
-import kotlinx.android.synthetic.main.view_todo.view.*
 
 class TaskView @JvmOverloads constructor(
     context: Context,
@@ -38,7 +37,7 @@ class TaskView @JvmOverloads constructor(
         }
     }
 
-    fun isTaskComplete(): Boolean = task.todos.filter { !it.isComplete }.isEmpty()
+    private fun isTaskComplete(): Boolean = task.todos.filter { !it.isComplete }.isEmpty()
 
     private fun creatStrikeThough() {
         titleView.apply {

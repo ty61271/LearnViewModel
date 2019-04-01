@@ -5,16 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.learnviewmodel.models.Note
 
-class NoteViewModel : ViewModel() ,NoteListViewContract{
+class NoteViewModel : ViewModel(), NoteListViewContract {
+
+    private val model: NoteModel = NoteModel()
 
     private val _noteLiveData: MutableLiveData<List<Note>> = MutableLiveData()
     val noteLiveData: LiveData<List<Note>> = _noteLiveData
 
     init {
-        _noteLiveData.postValue(getFakeData())
+        _noteLiveData.postValue(model.getFakeData())
     }
-    fun getFakeData(): MutableList<Note> = mutableListOf(
-        Note("pi is not exactly 3.14"),
-        Note("A double double is Canadian for coffee two cream two sugar")
-    )
+
 }

@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.learnviewmodel.models.Todo
 import kotlinx.android.synthetic.main.view_todo.view.*
-import javax.security.auth.callback.Callback
 
 class TodoView @JvmOverloads constructor(
     context: Context,

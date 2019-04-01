@@ -1,7 +1,7 @@
 package com.example.learnviewmodel.create
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.learnviewmodel.R
 import com.example.learnviewmodel.navigation.NavigationActivity
 import kotlinx.android.synthetic.main.activity_create.*

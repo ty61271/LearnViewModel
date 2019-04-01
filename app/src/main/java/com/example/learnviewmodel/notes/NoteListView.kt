@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.learnviewmodel.models.Note
-import kotlinx.android.synthetic.main.fragment_notes_list.*
 import kotlinx.android.synthetic.main.fragment_notes_list.view.*
 
 class NoteListView @JvmOverloads constructor(

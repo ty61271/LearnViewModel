@@ -23,10 +23,10 @@ class TaskAdater(
         else
             AddButtonViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_add_button, parent, false))
 
-   inner class TaskViewHolder(view: View) : BaseViewHolder<Task>(view) {
+    inner class TaskViewHolder(view: View) : BaseViewHolder<Task>(view) {
         override fun onBind(data: Task, listIndex: Int) {
-            (view as TaskView).initView(data) {todoIndex,isChecked->
-                dataActionDelegate.onTodoUpdated(listIndex,todoIndex,isChecked)
+            (view as TaskView).initView(data) { todoIndex, isChecked ->
+                dataActionDelegate.onTodoUpdated(listIndex, todoIndex, isChecked)
             }
         }
     }

@@ -2,13 +2,13 @@ package com.example.learnviewmodel.navigation
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.learnviewmodel.R
 import com.example.learnviewmodel.create.CreateActivity
 import com.example.learnviewmodel.notes.NotesListFragment
 import com.example.learnviewmodel.tasks.TaskListFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_navigation.*
 
 class NavigationActivity : AppCompatActivity(), TaskListFragment.TouchActionDelegate,
