@@ -42,8 +42,8 @@ class TaskListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setContainView()
         bindViewModel()
+        setContainView()
     }
     private fun setContainView(){
         containView.initView(touchActionDelegate,viewModel)
