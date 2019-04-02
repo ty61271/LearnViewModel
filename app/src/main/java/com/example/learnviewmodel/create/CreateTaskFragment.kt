@@ -9,12 +9,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.learnviewmodel.R
 import com.example.learnviewmodel.foundations.StateChangeTextWatcher
+import com.example.learnviewmodel.models.Task
+import com.example.learnviewmodel.models.Todo
+import com.example.learnviewmodel.tasks.TaskLocalModel
 import com.example.learnviewmodel.views.CreateTodoView
 import kotlinx.android.synthetic.main.fragment_create_task.*
 import kotlinx.android.synthetic.main.view_create_task.view.*
 import kotlinx.android.synthetic.main.view_create_todo.view.*
+import javax.inject.Inject
+
+
+private const val MAX_TODO_COUNT = 5
 
 class CreateTaskFragment : Fragment() {
+
+
+    @Inject
+    lateinit var model: TaskLocalModel
 
     private var listener: OnFragmentInteractionListener? = null
 
@@ -35,7 +46,7 @@ class CreateTaskFragment : Fragment() {
                 if (!s.isNullOrEmpty() && previousValues.isNullOrEmpty())
                     addTodoView()
                 else if (!previousValues.isNullOrEmpty() && s.isNullOrEmpty())
-                    removeTodoView(containerView.getChildAt(containerView.childCount-1))
+                    removeTodoView(containerView.getChildAt(containerView.childCount - 1))
                 super.afterTextChanged(s)
 
             }
@@ -43,23 +54,68 @@ class CreateTaskFragment : Fragment() {
     }
 
     private fun addTodoView() {
-        val view=LayoutInflater.from(context).inflate(R.layout.view_create_todo,containerView,false) as CreateTodoView
+        if (canAddTodo()) {
+            val view =
+                (LayoutInflater.from(context).inflate(
+                    R.layout.view_create_todo,
+                    containerView,
+                    false
+                ) as CreateTodoView).apply {
+                    todoEditText.addTextChangedListener(object : StateChangeTextWatcher() {
+                        override fun afterTextChanged(s: Editable?) {
+                            if (!s.isNullOrEmpty() && previousValues.isNullOrEmpty())
+                                addTodoView()
+                            else if (!previousValues.isNullOrEmpty() && s.isNullOrEmpty()) {
+                                removeTodoView(this@apply)
 
-        view.todoEditText.addTextChangedListener(object :StateChangeTextWatcher(){
-            override fun afterTextChanged(s: Editable?) {
-                if(!s.isNullOrEmpty() && previousValues.isNullOrEmpty())
-                    addTodoView()
-                else if (!previousValues.isNullOrEmpty() && s.isNullOrEmpty())
-                    removeTodoView(view)
-                super.afterTextChanged(s)
-            }
-        })
-
-        containerView.addView(view)
+                                //max_todo_count will be 5 and something will be removed if count went from 6 -> 5
+                                if (containerView.childCount == MAX_TODO_COUNT) {
+                                    addTodoView()
+                                }
+                            }
+                            super.afterTextChanged(s)
+                        }
+                    })
+                }
+            containerView.addView(view)
+        }
     }
 
     private fun removeTodoView(view: View) {
         containerView.removeView(view)
+    }
+
+    private fun canAddTodo() = containerView.childCount < MAX_TODO_COUNT + 1
+
+
+    private fun isTaskEmpty() = containerView.taskEditText.editableText.isNotEmpty()
+
+    fun saveTask() {
+        if (!isTaskEmpty()) {
+
+            containerView.run {
+
+                var taskFields: String? = null
+                val todoList: MutableList<Todo> = mutableListOf()
+                for (i in 0 until containerView.childCount) {
+                    if (i == 0) {
+                        taskFields = containerView.getChildAt(i).taskEditText.editableText?.toString()
+                    } else {
+                        if (containerView.getChildAt(i).todoEditText.editableText?.toString() != null) {
+                            todoList.add(
+                                Todo(containerView.getChildAt(i).todoEditText.editableText.toString())
+                            )
+                        }
+                    }
+                }
+                taskFields?.let {
+                    model.addTask(Task(it, todoList)) {
+                        //blank callback
+                    }
+                }
+
+            }
+        }
     }
 
     override fun onAttach(context: Context) {

@@ -6,6 +6,7 @@
         android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
+            android:src="@drawable/ic_plus"
             android:layout_width="@dimen/image_icon_default"
             android:layout_height="@dimen/image_icon_default"
             app:layout_constraintTop_toTopOf="parent"
