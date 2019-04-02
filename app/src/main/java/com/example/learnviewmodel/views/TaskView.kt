@@ -1,7 +1,6 @@
 package com.example.learnviewmodel.views
 
 import android.content.Context
-import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -27,9 +26,9 @@ class TaskView @JvmOverloads constructor(
 
                         todoCheckedCallback.invoke(todoIndext, isCheck)
                         if (isTaskComplete()) {
-                            creatStrikeThough()
+                            this@TaskView.titleView.setStrikeThough()
                         } else {
-                            removeStrikeThough()
+                            this@TaskView.titleView.removeStrikeThough()
                         }
                     }
                 }
@@ -39,15 +38,4 @@ class TaskView @JvmOverloads constructor(
 
     private fun isTaskComplete(): Boolean = task.todos.filter { !it.isComplete }.isEmpty()
 
-    private fun creatStrikeThough() {
-        titleView.apply {
-            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        }
-    }
-
-    private fun removeStrikeThough() {
-        titleView.apply {
-            paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-        }
-    }
 }

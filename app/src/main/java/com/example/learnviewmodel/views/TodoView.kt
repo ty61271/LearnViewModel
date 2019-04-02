@@ -1,7 +1,6 @@
 package com.example.learnviewmodel.views
 
 import android.content.Context
-import android.graphics.Paint
 import android.util.AttributeSet
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.learnviewmodel.models.Todo
@@ -17,7 +16,7 @@ class TodoView @JvmOverloads constructor(
         descriptionView.text = todo.description
         completeCheckBox.isChecked = todo.isComplete
         if (todo.isComplete) {
-            creatStrikeThough()
+            descriptionView.setStrikeThough()
         }
 
         setCheckStateListener(todo, callback)
@@ -28,22 +27,10 @@ class TodoView @JvmOverloads constructor(
             todo.isComplete = isChecked
             callback?.invoke(isChecked)
             if (isChecked) {
-                creatStrikeThough()
+                descriptionView.setStrikeThough()
             } else {
-                removeStrikeThough()
+                descriptionView.removeStrikeThough()
             }
-        }
-    }
-
-    private fun creatStrikeThough() {
-        descriptionView.apply {
-            paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        }
-    }
-
-    private fun removeStrikeThough() {
-        descriptionView.apply {
-            paintFlags = paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
         }
     }
 }
