@@ -2,8 +2,9 @@ package com.example.learnviewmodel.tasks
 
 import com.example.learnviewmodel.models.Task
 import com.example.learnviewmodel.models.Todo
+import javax.inject.Inject
 
-class TaskModel {
+class TaskModel @Inject constructor(){
 
     fun getFakeData(): MutableList<Task> = mutableListOf(
         Task(
