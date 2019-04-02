@@ -1,8 +1,15 @@
 package com.example.learnviewmodel.foundations
 
+import android.text.Editable
 import android.text.TextWatcher
 
-abstract class DefaultTextWatcher : TextWatcher {
+open class StateChangeTextWatcher : TextWatcher {
+
+    var previousValues: String? = null
+
+    override fun afterTextChanged(s: Editable?) {
+        previousValues = s?.toString()
+    }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         //no-op
