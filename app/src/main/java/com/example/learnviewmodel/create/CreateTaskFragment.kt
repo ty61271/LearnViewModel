@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.learnviewmodel.R
+import com.example.learnviewmodel.foundations.ApplicationScope
 import com.example.learnviewmodel.foundations.StateChangeTextWatcher
 import com.example.learnviewmodel.models.Task
 import com.example.learnviewmodel.models.Todo
@@ -16,6 +17,7 @@ import com.example.learnviewmodel.views.CreateTodoView
 import kotlinx.android.synthetic.main.fragment_create_task.*
 import kotlinx.android.synthetic.main.view_create_task.view.*
 import kotlinx.android.synthetic.main.view_create_todo.view.*
+import toothpick.Toothpick
 import javax.inject.Inject
 
 
@@ -28,6 +30,13 @@ class CreateTaskFragment : Fragment() {
     lateinit var model: TaskLocalModel
 
     private var listener: OnFragmentInteractionListener? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        Toothpick.inject(this, ApplicationScope.scope)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -88,11 +97,20 @@ class CreateTaskFragment : Fragment() {
     private fun canAddTodo() = containerView.childCount < MAX_TODO_COUNT + 1
 
 
-    private fun isTaskEmpty() = containerView.taskEditText.editableText.isNotEmpty()
+    private fun isTaskEmpty(): Boolean = containerView.taskEditText.editableText.isNullOrEmpty()
 
-    fun saveTask() {
+    fun saveTask(callback: (Boolean) -> Unit) {
+        createTask()?.let {
+            model.addTask(it) {
+                //assume model always works
+                callback.invoke(true)
+            }
+        } ?: callback.invoke(false)
+
+    }
+
+    fun createTask(): Task? {
         if (!isTaskEmpty()) {
-
             containerView.run {
 
                 var taskFields: String? = null
@@ -101,20 +119,19 @@ class CreateTaskFragment : Fragment() {
                     if (i == 0) {
                         taskFields = containerView.getChildAt(i).taskEditText.editableText?.toString()
                     } else {
-                        if (containerView.getChildAt(i).todoEditText.editableText?.toString() != null) {
+                        if (!containerView.getChildAt(i).todoEditText.editableText?.toString() .isNullOrEmpty()) {
                             todoList.add(
                                 Todo(containerView.getChildAt(i).todoEditText.editableText.toString())
                             )
                         }
                     }
                 }
-                taskFields?.let {
-                    model.addTask(Task(it, todoList)) {
-                        //blank callback
-                    }
+                return taskFields?.let {
+                    Task(taskFields, todoList)
                 }
-
             }
+        } else {
+            return null
         }
     }
 
