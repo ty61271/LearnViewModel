@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.learnviewmodel.R
 import com.example.learnviewmodel.foundations.ApplicationScope
+import com.example.learnviewmodel.foundations.NullFieldChecker
 import com.example.learnviewmodel.foundations.StateChangeTextWatcher
 import com.example.learnviewmodel.models.Task
 import com.example.learnviewmodel.models.Todo
@@ -94,7 +95,9 @@ class CreateTaskFragment : Fragment() {
         containerView.removeView(view)
     }
 
-    private fun canAddTodo() = containerView.childCount < MAX_TODO_COUNT + 1
+    private fun canAddTodo(): Boolean =
+        (containerView.childCount < MAX_TODO_COUNT + 1) &&
+                !(containerView.getChildAt(containerView.childCount - 1) as NullFieldChecker).hasNullField()
 
 
     private fun isTaskEmpty(): Boolean = containerView.taskEditText.editableText.isNullOrEmpty()
@@ -119,7 +122,7 @@ class CreateTaskFragment : Fragment() {
                     if (i == 0) {
                         taskFields = containerView.getChildAt(i).taskEditText.editableText?.toString()
                     } else {
-                        if (!containerView.getChildAt(i).todoEditText.editableText?.toString() .isNullOrEmpty()) {
+                        if (!containerView.getChildAt(i).todoEditText.editableText?.toString().isNullOrEmpty()) {
                             todoList.add(
                                 Todo(containerView.getChildAt(i).todoEditText.editableText.toString())
                             )
